@@ -8,8 +8,28 @@ import About from "./components/About";
 
 const App = () => {
   const [showAddTask, setShowAddTask] = useState(false);
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState([
+    {
+      id: 3,
+      text: "Grocery Shopping",
+      day: "Feb 5th at 2:30pm",
+      reminder: true,
+    },
+    {
+      text: "Hand-in HW",
+      day: "Feb, 10th at 4:30pm",
+      reminder: true,
+      id: 4,
+    },
+    {
+      text: "Code Signal",
+      day: "Mar, 13th at 9:00am",
+      reminder: true,
+      id: 5,
+    },
+  ]);
 
+  /*
   useEffect(() => {
     const getTasks = async () => {
       const tasksFromServer = await fetchTasks();
@@ -31,9 +51,11 @@ const App = () => {
     const data = await res.json();
     return data;
   };
+  */
 
   // Add Task
   const addTask = async (task) => {
+    /*
     const res = await fetch("http://localhost:5000/tasks", {
       method: "POST",
       headers: {
@@ -45,21 +67,23 @@ const App = () => {
     const data = await res.json();
 
     setTasks([...tasks, data]);
+    */
 
-    // const id = Math.floor(Math.random() * 10000 + 1);
-    // const newTask = { id, ...task };
-    // setTasks([...tasks, newTask]);
+    const id = Math.floor(Math.random() * 10000 + 1);
+    const newTask = { id, ...task };
+    setTasks([...tasks, newTask]);
   };
 
   // Delete Task
   const deleteTask = async (id) => {
-    await fetch(`http://localhost:5000/tasks/${id}`, { method: "DELETE" });
+    // await fetch(`http://localhost:5000/tasks/${id}`, { method: "DELETE" });
 
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
   // Toggle Reminder
   const toggleReminder = async (id) => {
+    /*
     const taskToToggle = await fetchTask(id);
     const updatedTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
 
@@ -72,10 +96,11 @@ const App = () => {
     });
 
     const data = await res.json();
+    */
 
     setTasks(
       tasks.map((task) =>
-        task.id === id ? { ...task, reminder: data.reminder } : task
+        task.id === id ? { ...task, reminder: !task.reminder } : task
       )
     );
   };
@@ -88,7 +113,7 @@ const App = () => {
           showAdd={showAddTask}
         />
         <Route
-          path="/"
+          path="/task-tracker"
           exact
           render={(props) => (
             <>
@@ -105,7 +130,7 @@ const App = () => {
             </>
           )}
         />
-        <Route path="/about" component={About} />
+        <Route path="/task-tracker/about" component={About} />
         <Footer />
       </div>
     </Router>
